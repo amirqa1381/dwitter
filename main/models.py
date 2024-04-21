@@ -6,7 +6,7 @@ from django.dispatch import receiver
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, verbose_name='User', related_name='profile')
-    image = models.ImageField(upload_to='profile_pics/', verbose_name='Image', blank=True)
+    image = models.ImageField(upload_to='profile_pics/', verbose_name='Image')
     follows = models.ManyToManyField('self', related_name='followers', symmetrical=False, blank=True)
 
     def __str__(self):

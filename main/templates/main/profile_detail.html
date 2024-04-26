@@ -10,7 +10,7 @@
 
         {% if request.user.is_authenticated %}
             <form action="" method="post">
-            {% csrf_token %}
+                {% csrf_token %}
                 <div class="buttons has-addons">
                     {% if user_profile in request.user.profile.follows.all %}
                         <button class="button is-success is-static">Followed</button>
@@ -28,6 +28,20 @@
             </h1>
         </div>
 
+
+        {% if user_profile in request.user.profile.follows.all %}
+            <div class="content">
+                {% for dweet in user_profile.user.dweet_set.all %}
+                    <div class="box">
+                        {{ dweet.content }}
+                        <span class="is-small has-text-grey-light">
+                ({{ dweet.created_at }})
+            </span>
+                    </div>
+                {% endfor %}
+            </div>
+
+        {% endif %}
     </div>
 
     <div class="column is-one-third">

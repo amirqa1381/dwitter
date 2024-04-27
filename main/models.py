@@ -19,6 +19,9 @@ class Dweet(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Created at')
     is_active = models.BooleanField(default=True, verbose_name='Is Active')
 
+    # class Meta:
+    #     ordering = ['-created_at']
+
     def __str__(self):
         return f"""
         {self.user.username} /

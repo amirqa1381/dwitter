@@ -10,6 +10,15 @@
     <title>{% block title %}{% endblock title %}</title>
 </head>
 <body>
+{% if messages %}
+    {% for message in messages %}
+        <div class="notification is-link is-light">
+            <button class="delete"></button>
+            {{ message }}
+        </div>
+    {% endfor %}
+
+{% endif %}
 <section class="hero is-small is-success mb-4">
     <div class="hero-body">
         <h1 class="title is-1">Dwitter</h1>
@@ -21,5 +30,16 @@
     <div class="columns">{% block content %} {% endblock content %}</div>
 </div>
 </div>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        (document.querySelectorAll('.notification .delete') || []).forEach(($delete) => {
+            const $notification = $delete.parentNode;
+
+            $delete.addEventListener('click', () => {
+                $notification.parentNode.removeChild($notification);
+            });
+        });
+    });
+</script>
 </body>
 </html>

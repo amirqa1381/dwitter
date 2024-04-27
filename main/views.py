@@ -1,8 +1,9 @@
 from django.shortcuts import render, redirect
 from django.http import HttpRequest, HttpResponse
-from .models import Profile
+from .models import Profile, Dweet
 from .forms import DweetForm
 from django.contrib import messages
+
 
 # def index_page(request):
 #     """
@@ -51,8 +52,11 @@ def dashboard(request: HttpRequest):
     """
     if request.method == "GET":
         form = DweetForm()
+        followed_dweets = Dweet.objects.filter(user__profile__in=request.user.profile.follows.all()).order_by(
+            '-created_at')
         context = {
-            'form': form
+            'form': form,
+            'followed_dweets': followed_dweets
         }
         return render(request, 'main/dashboard.html', context)
 

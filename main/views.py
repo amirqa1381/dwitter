@@ -1,6 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpRequest, HttpResponse
-from .models import Profile
+from .models import Profile, Dweet
+from .forms import DweetForm
+from django.contrib import messages
 
 
 # def index_page(request):
@@ -48,4 +50,26 @@ def dashboard(request: HttpRequest):
     This function is for displaying the dweets of the user's profile that i followed and a form
     for submitting my dweets
     """
-    return render(request, 'main/dashboard.html')
+    if request.method == "GET":
+        form = DweetForm()
+        followed_dweets = Dweet.objects.filter(user__profile__in=request.user.profile.follows.all()).order_by(
+            '-created_at')
+        context = {
+            'form': form,
+            'followed_dweets': followed_dweets
+        }
+        return render(request, 'main/dashboard.html', context)
+
+    if request.method == "POST":
+        form = DweetForm(request.POST)
+        if form.is_valid():
+            dweet = form.save(commit=False)
+            dweet.user = request.user
+            dweet.save()
+            messages.success(request, 'Your dweet has been submitted!')
+            return redirect('dashboard')
+        messages.error(request, "Invalid dweet")
+        context = {
+            'form': form
+        }
+        return render(request, 'main/dashboard.html', context)

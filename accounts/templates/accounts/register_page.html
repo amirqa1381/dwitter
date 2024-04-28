@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Register
+{% endblock %}
+
+
+{% block content %}
+
+    <div class="block">
+        <form action="{% url 'register' %}" method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <div class="field is-grouped">
+                <div class="control">
+                    <button class="button is-link" style="margin: 20px; width: 100px">Submit</button>
+                </div>
+                <div class="control">
+                    <a href="#" class="button is-link is-light" style="margin: 20px; width: 100px">Cancel</a>
+                </div>
+            </div>
+        </form>
+    </div>
+
+
+{% endblock %}

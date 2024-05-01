@@ -7,13 +7,15 @@
 
             <div class="block">
                 <div class="card">
-                    <a href="{% url 'profile_detail' profile.id%}">
+                    <a href="{% url 'profile_detail' profile.id %}">
                         <div class="card-content">
                             <div class="media">
                                 <div class="media-left">
                                     <figure class="image is-48x48">
-                                        <img src="{{ profile.image.url }}"
+                                        {% if profile.image %}
+                                        	<img src="{{ profile.image.url }}"
                                              alt="Placeholder image">
+                                        {% endif %}
                                     </figure>
                                 </div>
                                 <div class="media-content">

@@ -3,6 +3,7 @@ from django.http import HttpRequest, HttpResponse
 from .models import Profile, Dweet
 from .forms import DweetForm
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
 
 # def index_page(request):
@@ -21,6 +22,7 @@ def profile_list(request: HttpRequest):
         'profiles': profiles
     }
     return render(request, 'main/profile_list.html', context)
+
 
 
 def profile_detail(request: HttpRequest, profile_id):
@@ -44,7 +46,7 @@ def profile_detail(request: HttpRequest, profile_id):
     }
     return render(request, 'main/profile_detail.html', context)
 
-
+@login_required
 def dashboard(request: HttpRequest):
     """
     This function is for displaying the dweets of the user's profile that i followed and a form

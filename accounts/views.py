@@ -4,6 +4,9 @@ from django.views import View
 from .forms import RegistrationForm
 from django.contrib.auth.models import User
 from django.contrib import messages
+from django.contrib.auth.views import LoginView
+from .forms import LoginForm
+from django.urls import reverse_lazy
 
 
 class RegisterView(View):
@@ -31,3 +34,12 @@ class RegisterView(View):
             'form': form
         }
         return render(request, 'accounts/register_page.html', context)
+
+
+
+class Login(LoginView):
+    form_class = LoginForm
+    template_name = 'accounts/login_form.html'
+    redirect_authenticated_user = True
+    def get_success_url(self):
+        return reverse_lazy('dashboard')

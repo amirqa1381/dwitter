@@ -1,19 +1,13 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-
-
-class BulmaPasswordInput(forms.PasswordInput):
-    def render(self, name, value, attrs=None, renderer=None):
-        attrs = attrs or {}
-        attrs.update({'class': 'input is-info'})
-        return super(BulmaPasswordInput, self).render(name, value, attrs, renderer)
+from django.contrib.auth.forms import AuthenticationForm
 
 
 class RegistrationForm(UserCreationForm):
     password1 = forms.CharField(widget=forms.PasswordInput(
         attrs={'class': 'input is-info', 'placeholder': 'Password', 'style': 'margin: 20px;'}),
-                                label='')
+        label='')
     password2 = forms.CharField(
         widget=forms.PasswordInput(
             attrs={'class': 'input is-info', 'placeholder': 'Password confirm', 'style': 'margin:20px;'}), label='')
@@ -40,4 +34,16 @@ class RegistrationForm(UserCreationForm):
         required = ('username', 'email', 'password1', 'password2')
         error_messages = {
             'required': {"This field is required."},
+        }
+
+
+class LoginForm(AuthenticationForm):
+    class Meta:
+        model = User
+        fields = ('username', 'password')
+        widget = {
+            'username': forms.TextInput(
+                attrs={'class': 'input is-primary', 'placeholder': 'Username', 'style': 'margin:20px'}),
+            'password': forms.PasswordInput(
+                attrs={'class': 'input is-primary', 'placeholder': 'Password', 'style': 'margin: 20px;'})
         }

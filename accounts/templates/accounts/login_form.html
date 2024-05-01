@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}
+	Login
+{% endblock %}
+
+
+{% block content %}
+
+    <div class="block">
+        <form action="{% url 'login' %}" method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <div class="field is-grouped">
+                <div class="control">
+                    <button class="button is-link" style="margin: 20px; width: 100px">Submit</button>
+                </div>
+                <div class="control">
+                    <a href="{% url 'dashboard' %}" class="button is-link is-light" style="margin: 20px; width: 100px">Cancel</a>
+                </div>
+            </div>
+        </form>
+        <a href="{% url 'register' %}" class="button">If you don't have any account? </a>
+    </div>
+
+{% endblock %}

@@ -14,7 +14,7 @@ class Profile(models.Model):
 
 
 class Dweet(models.Model):
-    user = models.ForeignKey(User, on_delete=models.DO_NOTHING, verbose_name='User')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='User')
     content = models.CharField(max_length=140, verbose_name='Content')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Created at')
     is_active = models.BooleanField(default=True, verbose_name='Is Active')

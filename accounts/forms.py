@@ -38,12 +38,13 @@ class RegistrationForm(UserCreationForm):
 
 
 class LoginForm(AuthenticationForm):
+    username = forms.CharField(
+        widget=forms.TextInput(attrs={'class': 'input is-primary', 'placeholder': 'Username', 'style': 'margin:20px'}),
+        label='', max_length=150)
+    password = forms.CharField(widget=forms.PasswordInput(
+        attrs={'class': 'input is-primary', 'placeholder': 'Username', 'style': 'margin:20px'}), label='',
+        max_length=100)
+
     class Meta:
         model = User
         fields = ('username', 'password')
-        widget = {
-            'username': forms.TextInput(
-                attrs={'class': 'input is-primary', 'placeholder': 'Username', 'style': 'margin:20px'}),
-            'password': forms.PasswordInput(
-                attrs={'class': 'input is-primary', 'placeholder': 'Password', 'style': 'margin: 20px;'})
-        }

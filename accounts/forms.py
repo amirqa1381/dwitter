@@ -41,7 +41,7 @@ class LoginForm(AuthenticationForm):
         widget=forms.TextInput(attrs={'class': 'input is-primary', 'placeholder': 'Username', 'style': 'margin:20px'}),
         label='', max_length=150)
     password = forms.CharField(widget=forms.PasswordInput(
-        attrs={'class': 'input is-primary', 'placeholder': 'Username', 'style': 'margin:20px'}), label='',
+        attrs={'class': 'input is-primary', 'placeholder': 'Password', 'style': 'margin:20px'}), label='',
         max_length=100)
 
     class Meta:

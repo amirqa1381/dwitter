@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, UserChangeForm
 from django.contrib.auth.models import User
+from main.models import Profile
 
 
 class RegistrationForm(UserCreationForm):
@@ -55,7 +56,8 @@ class UpdateUserInfoForm(UserChangeForm):
         widget=forms.TextInput(attrs={'class': 'input is-primary', 'placeholder': 'Username', 'style': 'margin:20px'}),
         label='', max_length=150)
     first_name = forms.CharField(
-        widget=forms.TextInput(attrs={'class': 'input is-primary', 'placeholder': 'First Name', 'style': 'margin:20px'}),
+        widget=forms.TextInput(
+            attrs={'class': 'input is-primary', 'placeholder': 'First Name', 'style': 'margin:20px'}),
         label='', max_length=150)
 
     last_name = forms.CharField(
@@ -69,3 +71,11 @@ class UpdateUserInfoForm(UserChangeForm):
     class Meta:
         model = User
         fields = ('username', 'first_name', 'last_name', 'email')
+
+
+class ImagesetForm(forms.ModelForm):
+    image = forms.ImageField(widget=forms.FileInput(attrs={'class': 'input is-primary', 'style': 'margin:20px'}))
+
+    class Meta:
+        model = Profile
+        fields = ['image']

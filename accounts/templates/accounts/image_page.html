@@ -1,8 +1,9 @@
 {% extends 'base.html' %}
 
 {% block title %}
-    Edit Info
+    Set Image
 {% endblock %}
+
 
 {% block content %}
     <div class="container">
@@ -13,10 +14,17 @@
             <a href="#" class="button is-info" style="margin: 10px">Danger</a>
         </div>
         <div class="block">
-            <form action="{% url 'general_update_info' %}" method="post">
+            <div class="block" style="margin-bottom: 5rem;display: flex; flex-direction: row;justify-content: center">
+                {% if profile_image %}
+                    <figure class="image is-128x128">
+                        <img class="is-rounded" src="{{ profile_image }}" alt="User Profile Image" style="width: 20rem"/>
+                    </figure>
+                {% endif %}
+            </div>
+            <form action="{% url 'set_image' %}" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                 {{ form.as_p }}
-                <input type="submit" class="button is-primary" value="Submit"style="margin-left: 29rem; width: 150px">
+                <input type="submit" class="button is-primary" value="Submit" style="margin-left: 29rem; width: 150px">
             </form>
         </div>
     </div>

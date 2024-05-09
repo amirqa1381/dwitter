@@ -1,19 +1,22 @@
 from django.shortcuts import render, redirect
-from django.http import HttpRequest
+from django.http import HttpRequest, HttpResponseRedirect
 from django.views import View
-from .forms import RegistrationForm
 from django.contrib.auth.models import User
-from django.contrib import messages
-from django.contrib.auth.views import LoginView
-from django.contrib.auth import logout
-from .forms import LoginForm, UpdateUserInfoForm
+from django.contrib.auth.views import LoginView, PasswordChangeView
+from django.contrib.auth import logout, update_session_auth_hash
+from .forms import LoginForm, UpdateUserInfoForm, RegistrationForm, ImagesetForm, UserPasswordChangeForm
 from django.urls import reverse_lazy
 from django.contrib import messages
+from django.views.generic import FormView
+from main.models import Profile
+from django.contrib.auth.mixins import LoginRequiredMixin
+
 
 class RegisterView(View):
     """
     This class is for registering the user into the site application.
     """
+
     def get(self, request: HttpRequest):
         form = RegistrationForm()
         context = {'form': form}
@@ -61,11 +64,11 @@ def logout_view(request):
     return redirect('dashboard')
 
 
-
 class UpdateUserInfo(View):
     """
     This class is for updating the user information.
     """
+
     def get(self, request: HttpRequest):
         """
         This function is for get method and when user requested to the site
@@ -84,9 +87,96 @@ class UpdateUserInfo(View):
             form = UpdateUserInfoForm(request.POST, instance=current_user)
             if form.is_valid():
                 form.save()
-                messages.success(request,'The Updating the information was successfully :))')
+                messages.success(request, 'The Updating the information was successfully :))')
                 return redirect('general_update_info')
             context = {'form': form}
             return render(request, 'accounts/general_edit_info.html', context)
         else:
             return redirect('login')
+
+
+class SetImageUserOrUpdateUserImage(FormView):
+    """
+    This class is for setting the image for the user if user has not image yet ,
+    or update the user image if user has a image and wants to change it.
+    """
+    form_class = ImagesetForm
+    template_name = 'accounts/image_page.html'
+
+    def get_success_url(self):
+        return reverse_lazy('general_update_info')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        request = self.request
+        user = request.user.id
+        profile = Profile.objects.get(user=user)
+        try:
+            if profile.image is not None:
+                context['profile_image'] = profile.image.url
+            else:
+                context['profile_image'] = '/media/profile_pics/american_flag.jpg'
+        except:
+            context['profile_image'] = '/media/profile_pics/american_flag.jpg'
+        return context
+
+    def form_valid(self, form):
+        request = self.request
+        image = form.cleaned_data.get('image' or None)
+        current_user = User.objects.get(id=request.user.id)
+        try:
+            profile = Profile.objects.get(user=current_user)
+            if image:
+                profile.image = image
+                profile.save()
+                messages.success(request, "The image that you've selected has successfully set.")
+        except:
+            messages.error(request, "Something went wrong in saving the picture.")
+        return HttpResponseRedirect(self.get_success_url())
+
+
+class UserPasswordChangeView(LoginRequiredMixin, View):
+    """
+    This class is for changing the user password and for handling the requests that gonna go the the endpoint of this
+    view
+    """
+
+    def get(self, request: HttpRequest):
+        """
+        This function is for handling the get request that is come to this view
+        """
+        form = UserPasswordChangeForm(request.user)
+        context = {
+            'form': form
+        }
+        return render(request, 'accounts/change_password.html', context=context)
+
+    def post(self, request: HttpRequest):
+        """
+        this function is for handling the user updating the password in the post request
+        """
+        form = UserPasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            # after this code that we update the session, and we don't need to log in again the
+            # django will log in us again
+            update_session_auth_hash(request, user)
+            messages.success(request, "The password has changed successfully.")
+            return redirect('general_update_info')
+        context = {
+            'form': form
+        }
+        return render(request, 'accounts/change_password.html', context=context)
+
+# Second way of changing the password
+# class UserPasswordChangeView(LoginRequiredMixin, PasswordChangeView):
+#     form_class = UserPasswordChangeForm
+#     template_name = "accounts/change_password.html"
+#
+#     def get_success_url(self):
+#         return reverse_lazy("general_update_info")
+#
+#     def form_valid(self, form):
+#         user = form.save()
+#         update_session_auth_hash(self.request, user)
+#         return super().form_valid(form)

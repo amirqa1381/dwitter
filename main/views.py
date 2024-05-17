@@ -63,7 +63,7 @@ def dashboard(request: HttpRequest):
         return render(request, 'main/dashboard.html', context)
 
     if request.method == "POST":
-        form = DweetForm(request.POST)
+        form = DweetForm(request.POST, request.FILES)
         if form.is_valid():
             dweet = form.save(commit=False)
             dweet.user = request.user

@@ -5,13 +5,16 @@ from .models import Dweet
 class DweetForm(forms.ModelForm):
     class Meta:
         model = Dweet
-        exclude = ("user", "is_active")
+        exclude = ("user", "is_active",)
         widgets = {
             'content': forms.Textarea(
                 attrs={'class': 'textarea is-success is-medium', "placeholder": "Dweet something..."}),
+            'dweet_file': forms.FileInput(
+                attrs={'class': 'button is-success is-medium', "placeholder": "Dweet something..."}),
         }
         labels = {
             'content': '',
+            "dweet_file": ''
         }
 
     def formfield_callback(self, model_field):

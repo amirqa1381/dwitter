@@ -9,6 +9,16 @@
     <div class="column">
         {% for dweet in followed_dweets %}
                 <div class="box">
+j                    {% if dweet.dweet_file %}
+                        {% with  file_extension=dweet.dweet_file.url|cut:"/media/dweet_file/"|slice:"-4:" %}
+                        	{% if file_extension in ".mp4, .mov, .avi, .webm, .ogg" %}
+                                <video controls src="{{ dweet.dweet_file.url }}" datatype="{{ file_extension|slice:"1:"}}" style="height: 500px; width: 800px">
+                                </video>
+                                {% else %}
+                                <img src="{{ dweet.dweet_file.url }}" alt="Dweet file">
+                        	{% endif %} 
+                        {% endwith %}
+                    {% endif %}
                     {{ dweet.content }}
                     <span class="is-small has-text-grey-light">
                     ({{ dweet.created_at }} by {{ dweet.user.username }}
@@ -33,7 +43,7 @@
                 </button>
             </a>
         </div>
-        <form action="" method="post">
+        <form action="" method="post" enctype="multipart/form-data">
             {% csrf_token %}
             {{ form.as_p }}
             <button class="button is-success is-fullwidth is-medium mt-5"

@@ -15,8 +15,9 @@ class Profile(models.Model):
 
 class Dweet(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='User')
-    content = models.CharField(max_length=140, verbose_name='Content')
+    content = models.CharField(max_length=300, verbose_name='Content')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Created at')
+    dweet_file = models.FileField(upload_to='dweet_file/', verbose_name="Dweet File", null=True, blank=True)
     is_active = models.BooleanField(default=True, verbose_name='Is Active')
 
     # class Meta:

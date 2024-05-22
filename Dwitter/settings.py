@@ -30,26 +30,19 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'chitchat.apps.chitchatConfig'
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'daphne',
     'django.contrib.staticfiles',
     'channels',
     'main',
     'accounts',
-
+    'chating',
 ]
 
 
-CHANNEL_LAYERS = {
-    "default": {
-        "BACKEND": "channels.layers.InMemoryChannelLayer"
-    }
-}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -80,6 +73,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'Dwitter.wsgi.application'
+ASGI_APPLICATION = 'Dwitter.asgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
@@ -141,4 +135,4 @@ EMAIL_PORT = 587
 EMAIL_HOST_USER = "aqa0273@gmail.com"
 EMAIL_HOST_PASSWORD = "grmfasxyaqocmxcy"
 
-ASGI_APPLICATION = 'Dwitter.asgi.application'
+

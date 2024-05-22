@@ -42,8 +42,6 @@ INSTALLED_APPS = [
     'chating',
 ]
 
-
-
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -74,6 +72,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'Dwitter.wsgi.application'
 ASGI_APPLICATION = 'Dwitter.asgi.application'
+CHANNEL_LAYERS = {'default': {'BACKEND': 'channels.layers.InMemoryChannelLayer', }, }
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
@@ -134,5 +133,3 @@ EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = "aqa0273@gmail.com"
 EMAIL_HOST_PASSWORD = "grmfasxyaqocmxcy"
-
-

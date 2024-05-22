@@ -9,6 +9,11 @@
     />
     <link rel="icon" type="image/x-icon" href="/media/favicon.ico">
     <title>{% block title %}{% endblock title %}</title>
+    <style>
+        {% block style %}
+
+        {% endblock %}
+    </style>
 </head>
 <body>
 {% if messages %}

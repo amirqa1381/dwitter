@@ -7,6 +7,7 @@
             rel="stylesheet"
             href="https://cdn.jsdelivr.net/npm/bulma@1.0.0/css/bulma.min.css"
     />
+    <script src='https://cdn.tailwindcss.com'></script>
     <link rel="icon" type="image/x-icon" href="/media/favicon.ico">
     <title>{% block title %}{% endblock title %}</title>
     <style>
@@ -90,17 +91,19 @@
 <div class="container">
     <div class="columns">{% block content %} {% endblock content %}</div>
 </div>
-</div>
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-        (document.querySelectorAll('.notification .delete') || []).forEach(($delete) => {
-            const $notification = $delete.parentNode;
 
-            $delete.addEventListener('click', () => {
-                $notification.parentNode.removeChild($notification);
+{% block scripts %}
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            (document.querySelectorAll('.notification .delete') || []).forEach(($delete) => {
+                const $notification = $delete.parentNode;
+
+                $delete.addEventListener('click', () => {
+                    $notification.parentNode.removeChild($notification);
+                });
             });
         });
-    });
-</script>
+    </script>
+{% endblock %}
 </body>
 </html>

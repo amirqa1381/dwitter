@@ -30,6 +30,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'daphne',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -39,7 +40,7 @@ INSTALLED_APPS = [
     'channels',
     'main',
     'accounts',
-    'chating',
+    'room',
 ]
 
 MIDDLEWARE = [
@@ -70,9 +71,14 @@ TEMPLATES = [
     },
 ]
 
+ASGI_APPLICATION = "Dwitter.asgi.application"
 WSGI_APPLICATION = 'Dwitter.wsgi.application'
-ASGI_APPLICATION = 'Dwitter.asgi.application'
-CHANNEL_LAYERS = {'default': {'BACKEND': 'channels.layers.InMemoryChannelLayer', }, }
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels.layers.InMemoryChannelLayer'
+    }
+}
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases

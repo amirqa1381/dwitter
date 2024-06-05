@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+    Rooms
+{% endblock %}
+
+
+{% block content %}
+    <div class="container has-text-centered">
+        <div class="block">
+            <h1 class="title is-1">Rooms</h1>
+        </div>
+        <div class="block" style="margin-top: 8rem">
+            <div class="card">
+                <footer class="card-footer">
+                    {% for room in rooms %}
+                    	<a href="{% url 'room' slug=room.slug %}" class="card-footer-item">{{ room.name }}</a>
+                    {% endfor %}
+
+                </footer>
+            </div>
+
+        </div>
+    </div>
+{% endblock %}
+
+
+
+

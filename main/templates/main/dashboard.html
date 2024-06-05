@@ -9,7 +9,7 @@
     <div class="column">
         {% for dweet in followed_dweets %}
                 <div class="box">
-j                    {% if dweet.dweet_file %}
+                  {% if dweet.dweet_file %}
                         {% with  file_extension=dweet.dweet_file.url|cut:"/media/dweet_file/"|slice:"-4:" %}
                         	{% if file_extension in ".mp4, .mov, .avi, .webm, .ogg" %}
                                 <video controls src="{{ dweet.dweet_file.url }}" datatype="{{ file_extension|slice:"1:"}}" style="height: 500px; width: 800px">

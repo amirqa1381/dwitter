@@ -22,9 +22,9 @@ def room(request: HttpRequest, slug):
     This is the function for handling the room page and showing the chat of that to the user
     """
     room = Room.objects.get(slug=slug)
-    messages = Message.objects.filter(room=room)[:25]
+    contents = Message.objects.filter(room=room)[:25]
     context = {
         'room': room,
-        'messages': messages
+        'contents': contents
     }
     return render(request, 'room/room.html', context)

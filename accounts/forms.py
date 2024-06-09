@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from main.models import Profile
 from django.contrib.auth import update_session_auth_hash
 
+
 class RegistrationForm(UserCreationForm):
     """
     this form is for registering the new user and we created it for handling it..

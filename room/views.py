@@ -2,6 +2,10 @@ from django.shortcuts import render
 from .models import Room, Message
 from django.http import HttpRequest
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import FormView
+from .forms import RoomForm
+from django.urls import reverse_lazy
 
 
 @login_required
@@ -28,3 +32,21 @@ def room(request: HttpRequest, slug):
         'contents': contents
     }
     return render(request, 'room/room.html', context)
+
+
+class CreateRoomChating(LoginRequiredMixin, FormView):
+    """
+    This class is for creating the room for chating and all the persons that
+    follows the user who created the room can see him/her room
+    """
+    form_class = RoomForm
+    template_name = 'room/create_room_page.html'
+
+    def get_success_url(self):
+        return reverse_lazy('rooms')
+
+    def form_valid(self, form):
+        room = form.save(commit=False)
+        room.owner = self.request.user
+        room.save()
+        return super().form_valid(form)

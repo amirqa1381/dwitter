@@ -6,6 +6,7 @@ from django.contrib.auth.models import User
 class Room(models.Model):
     name = models.CharField(max_length=255, verbose_name='Name')
     slug = models.SlugField(max_length=255, unique=True, verbose_name='Slug', blank=True)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Owner', blank=True, null=True)
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)

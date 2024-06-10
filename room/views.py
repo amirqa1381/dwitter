@@ -1,11 +1,12 @@
 from django.shortcuts import render
 from .models import Room, Message
-from django.http import HttpRequest, HttpResponseRedirect
+from django.http import HttpRequest
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import FormView, DeleteView
 from .forms import RoomForm
 from django.urls import reverse_lazy
+from django.db.models import Q
 
 
 @login_required
@@ -13,7 +14,9 @@ def rooms(request: HttpRequest):
     """
     this function is for handling the rooms view and showing the all rooms to the user
     """
-    rooms = Room.objects.all()
+    # here is a query that i wrote , here current user just see the room has created and see the rooms
+    # that users that he/she follows that they created
+    rooms = Room.objects.filter(Q(owner=request.user) | Q(owner__profile__in=request.user.profile.follows.all()))
     context = {
         'rooms': rooms
     }

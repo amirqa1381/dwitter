@@ -1,9 +1,9 @@
 from django.shortcuts import render
 from .models import Room, Message
-from django.http import HttpRequest
+from django.http import HttpRequest, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import FormView
+from django.views.generic import FormView, DeleteView
 from .forms import RoomForm
 from django.urls import reverse_lazy
 
@@ -50,3 +50,22 @@ class CreateRoomChating(LoginRequiredMixin, FormView):
         room.owner = self.request.user
         room.save()
         return super().form_valid(form)
+
+
+class DeleteRoomView(LoginRequiredMixin, DeleteView):
+    """
+    This class is for deleting the room object that user want
+    """
+    model = Room
+    success_url = reverse_lazy('rooms')
+    template_name = 'room/room_confirm_delete.html'
+
+    def get_queryset(self):
+        """
+        Overrides the get_queryset method to ensure that the user can only
+        delete rooms they have created.
+        """
+        qs = super().get_queryset()
+        return qs.filter(owner=self.request.user)
+
+

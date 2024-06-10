@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+	Create Room
+{% endblock %}
+
+{% block content %}
+	    <div class="container">
+        <div class="block">
+            <form action="{% url 'create_room-chating' %}" method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <input type="submit" class="button is-primary" value="Submit"style="margin-left: 29rem; width: 150px">
+            </form>
+        </div>
+    </div>
+{% endblock %}

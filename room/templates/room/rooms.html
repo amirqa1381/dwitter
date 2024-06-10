@@ -8,14 +8,16 @@
 
 {% block content %}
     <div class="container has-text-centered">
-        <div class="block">
+        <div class="block" style="display: flex;flex-direction: row;justify-content: space-around">
             <h1 class="title is-1">Rooms</h1>
+            <a href="{% url 'create_room-chating' %}" class="button is-warning">Create
+                Room</a>
         </div>
         <div class="block" style="margin-top: 8rem">
             <div class="card">
                 <footer class="card-footer">
                     {% for room in rooms %}
-                    	<a href="{% url 'room' slug=room.slug %}" class="card-footer-item">{{ room.name }}</a>
+                        <a href="{% url 'room' slug=room.slug %}" class="card-footer-item">{{ room.name }}</a>
                     {% endfor %}
 
                 </footer>

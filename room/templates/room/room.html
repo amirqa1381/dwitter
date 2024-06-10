@@ -7,38 +7,72 @@
 
 
 {% block content %}
-    <div class="container has-text-centered">
-    <div class="block">
-        <h1 class="title is-1">{{ room.name }}</h1>
-    </div>
-    <div class="block" style="display: flex;flex-direction: row;justify-content: center; margin-top: 8rem">
-        <div class='lg:w-2/4 mx-4 lg:mx-auto p-4 bg-white rounded-xl'>
-            <div class='chat-messages space-y-3' id='chat-messages'>
-                {% for message in messages %}
-                    <div class='p-3'>
-                    <div class='p-4 bg-gray-200 rounded-xl custom'>
-                        <p class='font-semibold'>{{ text.user.username }}</p>
-                        <p>{{ message.message }}</p>
+    <div class="container is-fluid">
+        <div class="block">
+            <div class="columns">
+                <div class="column is-half is-offset-one-quarter">
+                    <h1 class="title is-1 has-text-centered">{{ room.name }}</h1>
+                    {% if request.user == room.owner %}
+                    	<a class="button is-warning open-modal">Delete Room</a>
+                    {% endif %}
+                    <div class="modal">
+                        <div class="modal-background"></div>
+                        <div class="modal-card">
+                            <header class="modal-card-head">
+                                <p class="modal-card-title">Modal title</p>
+                                <button class="button is-small close-modal">×</button>
+                            </header>
+                            <section class="modal-card-body">
+                                Are you sure for deleting the room!
+                                if you deleted the room , any person that is in the Group chat
+                                will be removed from this Group and you can not talk to them any more in
+                                the <strong>{{ room.name }}</strong>
+                                so be careful for deleting the room
+                            </section>
+                            <form method="post" action="{% url 'delete_room' slug=room.slug %}">
+                                {% csrf_token %}
+                                <footer class="modal-card-foot">
+                                    <div class="buttons">
+                                        <button type="submit" class="button is-danger">Confirm</button>
+                                        <button class="button close-modal">Cancel</button>
+                                    </div>
+                                </footer>
+                            </form>
+                        </div>
                     </div>
-                {% endfor %}
-
                 </div>
-
             </div>
+        </div>
 
-            <div class="lg:w-2/4 mt-6 mx-4 lg:mx-auto p-4 bg-white rounded-xl">
-                <form method='post' action='.' class='flex'>
-                    {% csrf_token %}
-                    <input type="text" name="content" class="flex-1 mr-3" placeholder="Your Message here....."
-                           id="chat-message-input">
-                    <button class='px-5 py-3 rounded-xl text-white bg-teal-600 hover:bg-teal-700'
-                            id="chat-message-submit">Submit
-                    </button>
+        <div class="block">
+            <div class="columns is-centered">
+                <div class="column is-half">
+                    <div class="chat-messages space-y-3" id="chat-messages">
+                        {% for content in contents %}
+                            <div class="p-3">
+                                <div class="p-4 bg-gray-200 rounded-xl custom">
+                                    <p class="font-semibold">{{ content.user.username }}</p>
+                                    <p>{{ content.message }}</p>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
 
-                </form>
+                    <div class="mt-6">
+                        <form method="post" action="." class="flex">
+                            {% csrf_token %}
+                            <input type="text" name="content" class="flex-1 mr-3" placeholder="Your Message here....."
+                                   id="chat-message-input">
+                            <button class="px-5 py-3 rounded-xl text-white bg-teal-600 hover:bg-teal-700"
+                                    id="chat-message-submit">Submit
+                            </button>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
+
 {% endblock %}
 
 
@@ -91,5 +125,25 @@
         }
 
         scrollToBotton();
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var modalElement = document.querySelector('.modal');
+            var openModalButton = document.querySelector('.open-modal');
+            var closeModalButtons = document.querySelectorAll('.close-modal, .modal-background');
+
+            // Open the modal when the "Open Modal" button is clicked
+            openModalButton.addEventListener('click', function () {
+                modalElement.classList.add('is-active');
+            });
+
+            // Close the modal when the close button or the modal background is clicked
+            closeModalButtons.forEach(function (button) {
+                button.addEventListener('click', function () {
+                    modalElement.classList.remove('is-active');
+                });
+            });
+        });
+
     </script>
 {% endblock %}

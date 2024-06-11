@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Contact
+{% endblock %}
+
+
+{% block content %}
+    <div class="container">
+        <div class="block">
+            <form action="{% url 'contact' %}" method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <div class="field is-grouped">
+                    <div class="control">
+                        <button class="button is-link" style="margin: 20px; width: 100px">Submit</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="block">
+            {% for contact_message in contact_messages %}
+                <article class="media">
+                    <figure class="media-left">
+                        <p class="image is-64x64">
+                            {% if contact_message.user.profile.image %}
+                                <img src="{{ contact_message.user.profile.image.url }}"/>
+                            {% else %}
+                                <img src="https://bulma.io/assets/images/placeholders/128x128.png"/>
+                            {% endif %}
+                        </p>
+                    </figure>
+                    <div class="media-content">
+                        <div class="content">
+                            <p>
+                                <strong>{{ contact_message.user.username }}</strong>
+                                <small>{{ contact_message.user.email }}</small>
+                                <small>{{ contact_message.created_at }}</small>
+                                <br/>
+                                {{ contact_message.message }}
+                            </p>
+                        </div>
+                    </div>
+
+                </article>
+            {% endfor %}
+            {% for answer in answers %}
+            	<article class="media">
+                    <figure class="media-left">
+                        <p class="image is-64x64">
+                            {% if answer.user.profile.image %}
+                                <img src="{{ answer.user.profile.image.url }}"/>
+                            {% else %}
+                                <img src="https://bulma.io/assets/images/placeholders/128x128.png"/>
+                            {% endif %}
+                        </p>
+                    </figure>
+                    <div class="media-content">
+                        <div class="content">
+                            <p>
+                                <strong>{{ answer.user.username }}</strong>
+                                <small>{{ answer.user.email }}</small>
+                                <small>{{ answer.created_at }}</small>
+                                <br/>
+                                {{ answer.answer }}
+                            </p>
+                        </div>
+                    </div>
+
+                </article>
+            {% endfor %}
+
+        </div>
+    </div>
+
+
+{% endblock %}

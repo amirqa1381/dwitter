@@ -4,7 +4,8 @@ from .views import (RegisterView,
                     Login,
                     UpdateUserInfo,
                     SetImageUserOrUpdateUserImage,
-                    UserPasswordChangeView
+                    UserPasswordChangeView,
+                    ContactUserView
                     )
 
 from django.contrib.auth.views import (PasswordResetView, PasswordResetDoneView, PasswordResetCompleteView,
@@ -12,6 +13,7 @@ from django.contrib.auth.views import (PasswordResetView, PasswordResetDoneView,
 
 urlpatterns = [
     path('register/', RegisterView.as_view(), name='register'),
+    path('contact/', ContactUserView.as_view(), name='contact'),
     path('login/', Login.as_view(), name='login'),
     path('logout/', logout_view, name='logout'),
     path('general-update/', UpdateUserInfo.as_view(), name='general_update_info'),

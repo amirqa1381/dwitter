@@ -2,14 +2,21 @@ from django.shortcuts import render, redirect
 from django.http import HttpRequest, HttpResponseRedirect
 from django.views import View
 from django.contrib.auth.models import User
-from django.contrib.auth.views import LoginView, PasswordChangeView
+from django.contrib.auth.views import LoginView
 from django.contrib.auth import logout, update_session_auth_hash
-from .forms import LoginForm, UpdateUserInfoForm, RegistrationForm, ImagesetForm, UserPasswordChangeForm
+from .forms import (LoginForm,
+                    UpdateUserInfoForm,
+                    RegistrationForm,
+                    ImagesetForm,
+                    UserPasswordChangeForm,
+                    ContactUserForm
+                    )
 from django.urls import reverse_lazy
 from django.contrib import messages
 from django.views.generic import FormView
 from main.models import Profile
 from django.contrib.auth.mixins import LoginRequiredMixin
+from .models import Contact, AnswersForContact
 
 
 class RegisterView(View):
@@ -168,6 +175,7 @@ class UserPasswordChangeView(LoginRequiredMixin, View):
         }
         return render(request, 'accounts/change_password.html', context=context)
 
+
 # Second way of changing the password
 # class UserPasswordChangeView(LoginRequiredMixin, PasswordChangeView):
 #     form_class = UserPasswordChangeForm
@@ -180,3 +188,43 @@ class UserPasswordChangeView(LoginRequiredMixin, View):
 #         user = form.save()
 #         update_session_auth_hash(self.request, user)
 #         return super().form_valid(form)
+
+
+class ContactUserView(LoginRequiredMixin, View):
+    """
+    this view is for handling the user messages and contact with us
+    """
+
+    def get(self, request: HttpRequest):
+        """
+        this function is for handling the get method of the view and when user send
+        get request to it we handel it with this function
+        """
+        form = ContactUserForm()
+        contact_messages = Contact.objects.filter(user=request.user)
+        answers = AnswersForContact.objects.filter(contact=contact_messages)
+        context = {
+            'form': form,
+            'contact_messages': contact_messages,
+            'answers': answers
+        }
+        return render(request, 'accounts/contact-page.html', context)
+
+    def post(self, request: HttpRequest):
+        """
+        this function is for a time that user send a post request and submit a form and we should
+        handel it with this function
+        """
+        form = ContactUserForm(request.POST)
+        if form.is_valid():
+            form = form.save(commit=False)
+            form.user = request.user
+            form.save()
+            messages.success(request, 'The message sent successfully.')
+            return redirect('contact')
+        else:
+            messages.error(request, 'Something went wrong')
+        context = {
+            'form': form
+        }
+        return render(request, 'accounts/contact-page.html', context)

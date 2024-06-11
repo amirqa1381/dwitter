@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, UserChangeForm, PasswordChangeForm
 from django.contrib.auth.models import User
 from main.models import Profile
-from django.contrib.auth import update_session_auth_hash
+from .models import Contact
 
 
 class RegistrationForm(UserCreationForm):
@@ -111,3 +111,16 @@ class UserPasswordChangeForm(PasswordChangeForm):
     class Meta:
         model = User
         fields = ['old_password', 'new_password1', 'new_password2']
+
+
+class ContactUserForm(forms.ModelForm):
+    class Meta:
+        model = Contact
+        fields = ['subject', 'message']
+        widgets = {
+            'subject': forms.TextInput(
+                attrs={'class': 'input is-info', 'placeholder': 'Subject', 'style': 'margin: 20px;'}),
+            'message': forms.Textarea(
+                attrs={'class': 'textarea', 'placeholder': 'Pls write your problem...', 'style': 'margin: 20px;',
+                       'rows': 10})
+        }

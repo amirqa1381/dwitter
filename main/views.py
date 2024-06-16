@@ -4,7 +4,6 @@ from .models import Profile, Dweet
 from .forms import DweetForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from deep_translator import GoogleTranslator
 
 
 # def index_page(request):
@@ -23,6 +22,7 @@ def profile_list(request: HttpRequest):
         'profiles': profiles
     }
     return render(request, 'main/profile_list.html', context)
+
 
 
 def profile_detail(request: HttpRequest, profile_id):
@@ -46,7 +46,6 @@ def profile_detail(request: HttpRequest, profile_id):
     }
     return render(request, 'main/profile_detail.html', context)
 
-
 @login_required
 def dashboard(request: HttpRequest):
     """
@@ -57,7 +56,6 @@ def dashboard(request: HttpRequest):
         form = DweetForm()
         followed_dweets = Dweet.objects.filter(user__profile__in=request.user.profile.follows.all()).order_by(
             '-created_at')
-
         context = {
             'form': form,
             'followed_dweets': followed_dweets
@@ -77,6 +75,3 @@ def dashboard(request: HttpRequest):
             'form': form
         }
         return render(request, 'main/dashboard.html', context)
-
-
-

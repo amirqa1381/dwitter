@@ -4,6 +4,7 @@ from .models import Profile, Dweet
 from .forms import DweetForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.views.generic import TemplateView
 
 
 # def index_page(request):
@@ -22,7 +23,6 @@ def profile_list(request: HttpRequest):
         'profiles': profiles
     }
     return render(request, 'main/profile_list.html', context)
-
 
 
 def profile_detail(request: HttpRequest, profile_id):
@@ -45,6 +45,7 @@ def profile_detail(request: HttpRequest, profile_id):
         'user_profile': user_profile,
     }
     return render(request, 'main/profile_detail.html', context)
+
 
 @login_required
 def dashboard(request: HttpRequest):
@@ -75,3 +76,11 @@ def dashboard(request: HttpRequest):
             'form': form
         }
         return render(request, 'main/dashboard.html', context)
+
+
+class AboutView(TemplateView):
+    """
+    this class is for showing the template to the user and tell to user all the
+    functionality and features of this website
+    """
+    template_name = 'main/about.html'

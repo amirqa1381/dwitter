@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    About
+{% endblock %}
+
+
+{% block content %}
+    <div class="content">
+        <h1>Dweeter</h1>
+        <p>
+            this application is for writing and reading the dweets and share your ideas with other people
+            in all around the world. you can talk about everything in this site and we don't have any limitation in
+            this app , first of all we just have web site for handling this app , but in the future we build mobile
+            apps for caring for this problem.so you can join to this app and share your victories, ideas, feelings,
+            and all the things that you can talk to other persons about it.
+        </p>
+        <h2>Features</h2>
+        <p>
+            this app has few features that everyone can work with it , you can talk to the people through the dweets
+            or you can talk to the people through the groups that you can create or join to your room that people you
+            followed created it
+
+        </p>
+        <ul>
+            <li>Share ideas through the dweets.</li>
+            <li>join groups</li>
+            <li>make a private chat(Coming Soon.....)</li>
+            <li>You can upload file and video and picture to it.</li>
+        </ul>
+        <h3>Joining in the Dweeter</h3>
+        <p>
+            if you don't register in the app you can join in the Dweeter through the below link:
+            <a href="{% url 'register' %}" style="color: firebrick">Register</a>
+        </p>
+        <ol>
+            <li>if you've not register in the site first of all you should register on it.</li>
+            <li>after registration you should process the login and login in the site.</li>
+            <li>after two part in the previous parts now you can enjoy from this app.</li>
+
+        </ol>
+        <blockquote>
+            Dweeter has lots of features in the future that we can enjoy from this
+            so with your joining to this app we can have lots of passion for it.
+        </blockquote>
+
+{% endblock %}

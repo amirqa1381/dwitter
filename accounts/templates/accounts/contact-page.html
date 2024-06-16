@@ -18,6 +18,8 @@
                 </div>
             </form>
         </div>
+        <br>
+        <br>
         <div class="block">
             {% for contact_message in contact_messages %}
                 <article class="media">
@@ -34,44 +36,45 @@
                         <div class="content">
                             <p>
                                 <strong>{{ contact_message.user.username }}</strong>
-                                <small>{{ contact_message.user.email }}</small>
-                                <small>{{ contact_message.created_at }}</small>
                                 <br/>
                                 {{ contact_message.message }}
-                            </p>
-                        </div>
-                    </div>
-
-                </article>
-            {% endfor %}
-            {% for answer in answers %}
-            	<article class="media">
-                    <figure class="media-left">
-                        <p class="image is-64x64">
-                            {% if answer.user.profile.image %}
-                                <img src="{{ answer.user.profile.image.url }}"/>
-                            {% else %}
-                                <img src="https://bulma.io/assets/images/placeholders/128x128.png"/>
-                            {% endif %}
-                        </p>
-                    </figure>
-                    <div class="media-content">
-                        <div class="content">
-                            <p>
-                                <strong>{{ answer.user.username }}</strong>
-                                <small>{{ answer.user.email }}</small>
-                                <small>{{ answer.created_at }}</small>
                                 <br/>
-                                {{ answer.answer }}
+                                <small>{{ contact_message.created_at }}</small>
                             </p>
                         </div>
-                    </div>
 
+                        {% for answer in contact_message.answersforcontact_set.all %}
+                            <article class="media">
+                                <figure class="media-left">
+                                    <p class="image is-48x48">
+                                        {% if answer.user.profile.image %}
+                                            <img src="{{ answer.user.profile.image.url }}"/>
+                                        {% else %}
+                                            <img src="https://bulma.io/assets/images/placeholders/96x96.png"/>
+                                        {% endif %}
+                                    </p>
+                                </figure>
+                                <div class="media-content">
+                                    <div class="content">
+                                        <p>
+                                            <strong>{{ answer.user.username }}</strong>
+                                            <br/>
+                                            {{ answer.answer }}
+                                            <br/>
+                                            <small>{{ answer.created_at }}</small>
+                                        </p>
+                                    </div>
+
+                                </div>
+                            </article>
+                        {% endfor %}
+
+
+                    </div>
                 </article>
             {% endfor %}
+
 
         </div>
-    </div>
-
-
+    </div>>
 {% endblock %}

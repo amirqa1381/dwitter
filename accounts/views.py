@@ -201,12 +201,12 @@ class ContactUserView(LoginRequiredMixin, View):
         get request to it we handel it with this function
         """
         form = ContactUserForm()
-        contact_messages = Contact.objects.filter(user=request.user)
-        answers = AnswersForContact.objects.filter(contact=contact_messages)
+        contact_messages = Contact.objects.filter(user=request.user).prefetch_related('answersforcontact_set')
+        # answers = AnswersForContact.objects.filter(contact__in=contact_messages)
         context = {
             'form': form,
             'contact_messages': contact_messages,
-            'answers': answers
+            # 'answers': answers
         }
         return render(request, 'accounts/contact-page.html', context)
 

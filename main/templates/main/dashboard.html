@@ -8,36 +8,36 @@
 {% block content %}
     <div class="column">
         {% for dweet in followed_dweets %}
-                <div class="box">
-                  {% if dweet.dweet_file %}
-                        {% with  file_extension=dweet.dweet_file.url|cut:"/media/dweet_file/"|slice:"-4:" %}
-                        	{% if file_extension in ".mp4, .mov, .avi, .webm, .ogg" %}
-                                <video controls src="{{ dweet.dweet_file.url }}" datatype="{{ file_extension|slice:"1:"}}" style="height: 500px; width: 800px">
-                                </video>
-                                {% else %}
-                                <img src="{{ dweet.dweet_file.url }}" alt="Dweet file">
-                        	{% endif %} 
-                        {% endwith %}
-                    {% endif %}
-                    {{ dweet.content }}
-                    <span class="is-small has-text-grey-light">
-                    ({{ dweet.created_at }} by {{ dweet.user.username }}
+            <div class="box">
+                {% if dweet.dweet_file %}
+                    {% with  file_extension=dweet.dweet_file.url|cut:"/media/dweet_file/"|slice:"-4:" %}
+                        {% if file_extension in ".mp4, .mov, .avi, .webm, .ogg" %}
+                            <video controls src="{{ dweet.dweet_file.url }}" datatype="{{ file_extension|slice:"1:" }}"
+                                   style="height: 500px; width: 800px">
+                            </video>
+                        {% else %}
+                            <img src="{{ dweet.dweet_file.url }}" alt="Dweet file">
+                        {% endif %}
+                    {% endwith %}
+                {% endif %}
+                <p>{{ dweet.content }}</p>
+                <span class="is-small has-text-grey-light">
+                    ({{ dweet.created_at }} by {{ dweet.user.username }})
                 </span>
-                </div>
+            </div>
         {% endfor %}
     </div>
 
-
     <div class="column is-one-third">
         <div class="block">
-            <a href="{% url 'profile_list' %} ">
+            <a href="{% url 'profile_list' %}">
                 <button class="button is-dark is-outlined is-fullwidth">
                     All Profiles
                 </button>
             </a>
         </div>
         <div class="block">
-            <a href="{% url 'profile_detail' request.user.profile.id %} ">
+            <a href="{% url 'profile_detail' request.user.profile.id %}">
                 <button class="button is-success is-light is-outlined is-fullwidth">
                     My Profile
                 </button>
@@ -46,9 +46,13 @@
         <form action="" method="post" enctype="multipart/form-data">
             {% csrf_token %}
             {{ form.as_p }}
-            <button class="button is-success is-fullwidth is-medium mt-5"
-                    type="submit">Dweet
-            </button>
+            <button class="button is-success is-fullwidth is-medium mt-5" type="submit">Dweet</button>
         </form>
+
+
     </div>
+
+
 {% endblock %}
+
+

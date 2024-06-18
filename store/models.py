@@ -8,8 +8,10 @@ class Category(models.Model):
     this model is used to store categories
     """
     name = models.CharField(max_length=150, unique=True, verbose_name='Name')
-    slug = models.SlugField(max_length=250, unique=True, verbose_name='Slug')
+    slug = models.SlugField(max_length=250, unique=True, verbose_name='Slug', blank=True)
     description = models.TextField(verbose_name='Description')
+    parent = models.ForeignKey('self', blank=True, null=True, related_name='children', on_delete=models.CASCADE,
+                               verbose_name='Parent')
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)
@@ -24,7 +26,7 @@ class Product(models.Model):
     this model is used to store products
     """
     name = models.CharField(max_length=150, verbose_name='Name')
-    slug = models.SlugField(max_length=250, unique=True, verbose_name='Slug')
+    slug = models.SlugField(max_length=250, unique=True, verbose_name='Slug', blank=True)
     description = models.TextField(verbose_name='Description')
     created = models.DateTimeField(auto_now_add=True, verbose_name='Created')
     updated = models.DateTimeField(auto_now=True, verbose_name='Updated')
@@ -46,4 +48,3 @@ class ProductPrice(models.Model):
 
     def __str__(self):
         return f"{self.seller.username} / {self.price}"
-

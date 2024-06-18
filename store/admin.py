@@ -7,6 +7,7 @@ class ProductPriceInline(admin.TabularInline):
     this is the class that we declared for adding field's of the product price into the Product admin page
     """
     model = ProductPrice
+    extra = 1
 
 
 @admin.register(Product)

@@ -48,3 +48,33 @@ class ProductPrice(models.Model):
 
     def __str__(self):
         return f"{self.seller.username} / {self.price}"
+
+
+class UserJobInformation(models.Model):
+    """
+    this model is used to store user job information and all the detail from user
+    """
+    CITY_CHOICES = (
+        ("TEH", "Tehran"),
+        ("TEX", "Texas"),
+        ("MAS", "Massachusetts"),
+        ("CHI", "Chicago"),
+        ("SHI", "Shiraz"),
+        ("ISF", "Isfahan"),
+        ("PAR", "Paris"),
+        ("BER", "Berlin"),
+        ("MUC", "Munich"),
+        ("ARD", "Ardabil"),
+        ("TAB", "Tabriz")
+    )
+    COUNTRY_CHOICES = (
+        ("IRN", "Iran"),
+        ("USA", "United States"),
+        ("GER", "Germany"),
+        ("FRA", "France")
+    )
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='User')
+    job_title = models.CharField(max_length=150, verbose_name='Job Title')
+    job_description = models.TextField(verbose_name='Job Description')
+    city = models.CharField(max_length=150, choices=CITY_CHOICES, verbose_name='City')
+    country = models.CharField(max_length=150, choices=COUNTRY_CHOICES, verbose_name='Country')

@@ -6,6 +6,16 @@ class UserJobInformationForm(forms.ModelForm):
     """
     this form allows user to create job information and detail about their city and country
     """
+    city = forms.ChoiceField(
+        widget=forms.Select(
+            attrs={'class': 'dropdown',
+                   'style': 'margin:20px;background-color:#002E27;padding:10px;border-radius:10px'}),
+        choices=UserJobInformation.CITY_CHOICES)
+    country = forms.ChoiceField(
+        widget=forms.Select(
+            attrs={'class': 'dropdown',
+                   'style': 'margin:20px;background-color:#002E27;padding:10px;border-radius:10px'}),
+        choices=UserJobInformation.COUNTRY_CHOICES)
 
     class Meta:
         model = UserJobInformation
@@ -14,10 +24,7 @@ class UserJobInformationForm(forms.ModelForm):
             'job_title': forms.TextInput(
                 attrs={'class': 'input is-primary', 'placeholder': 'Username', 'style': 'margin:20px'}),
             'job_description': forms.Textarea(
-                attrs={'class': 'textarea', 'placeholder': 'Description', 'style': 'margin:20px'}),
-            'city': forms.Select(choices=UserJobInformation.CITY_CHOICES,
-                                 attrs={'class': 'dropdown-menu', 'style': 'margin:20px'}),
-            'country': forms.Select(choices=UserJobInformation.COUNTRY_CHOICES,
-                                    attrs={'class': 'dropdown-menu', 'style': 'margin:20px'}),
+                attrs={'class': 'textarea is-primary', 'placeholder': 'Description', 'style': 'margin:20px',
+                       'rows': 10}),
 
         }

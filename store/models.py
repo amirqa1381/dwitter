@@ -78,3 +78,4 @@ class UserJobInformation(models.Model):
     job_description = models.TextField(verbose_name='Job Description')
     city = models.CharField(max_length=150, choices=CITY_CHOICES, verbose_name='City')
     country = models.CharField(max_length=150, choices=COUNTRY_CHOICES, verbose_name='Country')
+    is_submitted = models.BooleanField(default=False, verbose_name='is_submitted')

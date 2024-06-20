@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Product creation
+{% endblock %}
+
+{% block content %}
+    <div class="block">
+        <form action="{% url 'insert_product' %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ product_form.as_p }}
+            {{ price_formset.management_form }}
+            {% for form in price_formset %}
+                {{ form.as_p }}
+            {% endfor %}
+
+            <div class="field is-grouped">
+                <div class="control">
+                    <button class="button is-link" style="margin: 20px; width: 100px">Submit</button>
+                </div>
+                <div class="control">
+                    <a href="#" class="button is-link is-light" style="margin: 20px; width: 100px">Cancel</a>
+                </div>
+            </div>
+        </form>
+    </div>
+
+{% endblock %}

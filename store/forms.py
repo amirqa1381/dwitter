@@ -22,7 +22,7 @@ class UserJobInformationForm(forms.ModelForm):
         exclude = ['user', 'is_submitted']
         widgets = {
             'job_title': forms.TextInput(
-                attrs={'class': 'input is-primary', 'placeholder': 'Username', 'style': 'margin:20px'}),
+                attrs={'class': 'input is-primary', 'placeholder': 'Title', 'style': 'margin:20px'}),
             'job_description': forms.Textarea(
                 attrs={'class': 'textarea', 'placeholder': 'Description', 'style': 'margin:20px', 'rows': 10}),
 

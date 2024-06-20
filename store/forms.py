@@ -1,5 +1,5 @@
 from django import forms
-from .models import UserJobInformation
+from .models import UserJobInformation, Product
 
 
 class UserJobInformationForm(forms.ModelForm):
@@ -25,5 +25,28 @@ class UserJobInformationForm(forms.ModelForm):
                 attrs={'class': 'input is-primary', 'placeholder': 'Title', 'style': 'margin:20px'}),
             'job_description': forms.Textarea(
                 attrs={'class': 'textarea', 'placeholder': 'Description', 'style': 'margin:20px', 'rows': 10}),
+
+        }
+
+
+class ProductForm(forms.ModelForm):
+    """
+    this class is for product model for handling the form for submitting the form
+    """
+
+    class Meta:
+        model = Product
+        fields = ['name', 'description', 'serial_number', 'category', 'image']
+        widgets = {
+            'name': forms.TextInput(
+                attrs={'class': 'input is-info', 'placeholder': 'Product Name', 'style': 'margin:20px'}),
+            'serial_number': forms.NumberInput(
+                attrs={'class': 'input is-info', 'type': 'number', 'placeholder': 'Serial Number',
+                       'style': 'margin:20px'}),
+            'image': forms.FileInput(attrs={'class': 'file has-name', 'margin': '20px'}),
+            'description': forms.Textarea(
+                attrs={'class': 'textarea is-info', 'placeholder': 'Description', 'style': 'margin:20px'}),
+            'category': forms.Select(
+                attrs={'class': 'dropdown', 'style': 'background-color:#00202E;padding:10px;border-radius:10px'})
 
         }

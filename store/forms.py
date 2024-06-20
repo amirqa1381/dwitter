@@ -24,7 +24,6 @@ class UserJobInformationForm(forms.ModelForm):
             'job_title': forms.TextInput(
                 attrs={'class': 'input is-primary', 'placeholder': 'Username', 'style': 'margin:20px'}),
             'job_description': forms.Textarea(
-                attrs={'class': 'textarea is-primary', 'placeholder': 'Description', 'style': 'margin:20px',
-                       'rows': 10}),
+                attrs={'class': 'textarea', 'placeholder': 'Description', 'style': 'margin:20px', 'rows': 10}),
 
         }

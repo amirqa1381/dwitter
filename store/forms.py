@@ -19,7 +19,7 @@ class UserJobInformationForm(forms.ModelForm):
 
     class Meta:
         model = UserJobInformation
-        exclude = ['user']
+        exclude = ['user', 'is_submitted']
         widgets = {
             'job_title': forms.TextInput(
                 attrs={'class': 'input is-primary', 'placeholder': 'Username', 'style': 'margin:20px'}),

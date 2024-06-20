@@ -8,7 +8,7 @@
 {% block content %}
 
     <div class="block">
-        <form action="{% url 'register' %}" method="post">
+        <form action="{% url 'user_information' %}" method="post">
             {% csrf_token %}
             {{ form.as_p }}
             <div class="field is-grouped">

@@ -43,10 +43,27 @@ class ProductForm(forms.ModelForm):
             'serial_number': forms.NumberInput(
                 attrs={'class': 'input is-info', 'type': 'number', 'placeholder': 'Serial Number',
                        'style': 'margin:20px'}),
-            'image': forms.FileInput(attrs={'class': 'file has-name', 'margin': '20px'}),
+            'image': forms.FileInput(attrs={'class': 'file has-name', 'style': 'margin:30px'}),
             'description': forms.Textarea(
                 attrs={'class': 'textarea is-info', 'placeholder': 'Description', 'style': 'margin:20px'}),
             'category': forms.Select(
                 attrs={'class': 'dropdown', 'style': 'background-color:#00202E;padding:10px;border-radius:10px'})
 
+        }
+        error_messages = {
+            'name': {
+                'required': ""
+            },
+            'serial_number': {
+                'required': ""
+            },
+            'image': {
+                'required': ""
+            },
+            'category': {
+                'required': ""
+            },
+            'description': {
+                'required': ""
+            }
         }

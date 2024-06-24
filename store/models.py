@@ -34,6 +34,12 @@ class Product(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name='Category', related_name='product')
     image = models.ImageField(upload_to='products', verbose_name='Image')
 
+    def save(self, *args, **kwargs):
+        # i modify some thing in this function for saving the product slug auto and we don't need to add slug
+        # manually
+        self.slug = slugify(self.name)
+        super(Product, self).save(*args, **kwargs)
+
     def __str__(self):
         return self.name
 
@@ -43,7 +49,7 @@ class ProductPrice(models.Model):
     this model is used to store product prices
     """
     product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name='Product')
-    price = models.PositiveIntegerField(verbose_name='Price')
+    price = models.FloatField(verbose_name='Price')
     seller = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Seller')
 
     def __str__(self):

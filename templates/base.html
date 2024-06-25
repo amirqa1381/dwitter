@@ -63,11 +63,15 @@
                     <a href="{% url 'contact' %}" class="navbar-item">
                         Contact
                     </a>
+                    <a href="{% url 'store_page' %}" class="navbar-item">
+                        Store
+                    </a>
                     {% if request.user.userjobinformation_set.first.is_submitted %}
                         <a href="{% url 'create_product' %}" class="navbar-item">
                             Add Product
                         </a>
                     {% endif %}
+
                 </div>
             </div>
         </div>

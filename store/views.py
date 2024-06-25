@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.http import HttpRequest
 from django.views import View
@@ -97,3 +97,25 @@ class ProductListView(LoginRequiredMixin, ListView):
     model = Product
     template_name = 'store/main_index_store.html'
     context_object_name = 'products'
+
+
+class ProductDetailView(View):
+    """
+    showing the detail of the product
+    """
+    def get(self, request: HttpRequest, slug):
+        """
+        this function is for showing the detail of the product with slug and it's for handling the get method
+        in that
+        """
+        product = get_object_or_404(Product, slug=slug)
+        context = {
+            'product': product
+        }
+        return render(request, 'store/product_detail.html', context)
+
+    def post(self, request: HttpRequest):
+        """
+        this function is for post method and when post method arrived to this class
+        """
+        pass

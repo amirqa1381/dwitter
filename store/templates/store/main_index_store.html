@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load thumbnail %}
+
+{% block title %}
+    Store
+{% endblock %}
+
+
+{% block content %}
+
+    <div class="container">
+        <div class="block">
+            <div class="columns">
+                <div class="column">
+                    {% for product in products %}
+                        <div class="card" style="display: flex;flex-direction: column;align-items: center">
+                            <div class="card-image">
+
+                                {% thumbnail product.image "400x200" quality=100  as img %}
+                                    <img
+                                            src="{{ img.url }}"
+                                            alt="{{ product.name }}"
+                                    />
+                                {% endthumbnail %}
+
+
+                            </div>
+                            <div class="card-content">
+                                <div class="content">
+                                    {{ product.description|truncatechars:350 }}
+                                </div>
+                            </div>
+                            <a href="" class="button is-link" style="margin: 10px">More</a>
+                        </div>
+                    {% endfor %}
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

@@ -7,6 +7,7 @@ from django.contrib import messages
 from .models import Product, ProductPrice
 from django.forms import inlineformset_factory, NumberInput
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import ListView
 
 
 class UserInformationAndJobDetailsView(View):
@@ -86,3 +87,13 @@ class CreatProductView(LoginRequiredMixin, View):
             'price_formset': price_formset
         }
         return render(request, 'store/insert-product.html', context)
+
+
+class ProductListView(LoginRequiredMixin, ListView):
+    """
+    this class is for showing the list of the all the products that users suggest to others
+    and we can read about them and if they were seller we can order it to them...
+    """
+    model = Product
+    template_name = 'store/main_index_store.html'
+    context_object_name = 'products'

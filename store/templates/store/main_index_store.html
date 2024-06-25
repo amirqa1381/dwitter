@@ -30,7 +30,7 @@
                                     {{ product.description|truncatechars:350 }}
                                 </div>
                             </div>
-                            <a href="" class="button is-link" style="margin: 10px">More</a>
+                            <a href="{% url 'product_detail' slug=product.slug%}" class="button is-link" style="margin: 10px">More</a>
                         </div>
                     {% endfor %}
 

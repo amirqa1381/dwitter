@@ -1,10 +1,68 @@
 {% extends 'base.html' %}
+{% load thumbnail %}
+
 
 {% block title %}
-	Detail
+    Detail
 {% endblock %}
 
 
 {% block content %}
+    <div class="container">
+        <div class="block">
+            <div class="card" style="display: flex;flex-direction: column;align-items: center">
+                <div class="card-image" style="margin-bottom: 30px">
+                    {% thumbnail product.image "400x200" quality=100 as img %}
+                        <img
+                                src="{{ img.url }}"
+                                alt="{{ product.name }}"
+                        />
+                    {% endthumbnail %}
+                    <h1 style="margin-top: 20px">{{ product.name }}</h1>
+                </div>
+                <div class="card">
+                    <div class="card-content">
+                        <div class="content">
+                            {{ product.description }}<br><br><br>
+                            <span>Created <strong>{{ product.created }}</strong></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="block">
+            {% for seller in product.productprice_set.all %}
+                <article class="media">
+                    <figure class="media-left">
+                        {% if seller.seller.profile.image %}
+                            <p class="image is-64x64">
+                                <img src="{{ seller.seller.profile.image.url }}"/>
+                            </p>
+                        {% else %}
+                            <p class="image is-64x64">
+                                <img src="https://bulma.io/assets/images/placeholders/128x128.png"/>
+                            </p>
+                        {% endif %}
+                    </figure>
+                    <div class="media-content">
+                        <div class="content">
+                            <h4>Price: {{ seller.price }}</h4>
+                            <p>
+                                <strong>{{ seller.seller.username }}</strong> <small>{{ seller.seller.email }}</small>
+                            </p>
+                        </div>
+                    </div>
+                </article>
+            {% endfor %}
 
+        </div>
+        <br><br><br><br>
+        <div class="block">
+            <form action="{% url 'product_detail' slug=product.slug%}" method="post">
+                {% csrf_token %}
+               {{ form }}
+                <button type="submit" class="button is-primary">Submit</button>
+            </form>
+        </div>
+    </div>
 {% endblock %}

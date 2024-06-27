@@ -1,5 +1,5 @@
 from django import forms
-from .models import UserJobInformation, Product
+from .models import UserJobInformation, Product, ProductComment
 
 
 class UserJobInformationForm(forms.ModelForm):
@@ -66,4 +66,18 @@ class ProductForm(forms.ModelForm):
             'description': {
                 'required': ""
             }
+        }
+
+
+class ProductCommentForm(forms.ModelForm):
+    """
+    this form is for handling the form part
+    """
+
+    class Meta:
+        model = ProductComment
+        fields = ['comment']
+        widgets = {
+            'comment': forms.Textarea(
+                attrs={'class': 'textarea', 'placeholder': 'Add a comment...', 'style': 'margin:20px'}),
         }

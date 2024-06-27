@@ -1,8 +1,10 @@
+from itertools import product
+
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.http import HttpRequest
 from django.views import View
-from .forms import UserJobInformationForm, ProductForm
+from .forms import UserJobInformationForm, ProductForm, ProductCommentForm
 from django.contrib import messages
 from .models import Product, ProductPrice
 from django.forms import inlineformset_factory, NumberInput
@@ -103,19 +105,38 @@ class ProductDetailView(View):
     """
     showing the detail of the product
     """
+
     def get(self, request: HttpRequest, slug):
         """
         this function is for showing the detail of the product with slug and it's for handling the get method
         in that
         """
+        form = ProductCommentForm()
         product = get_object_or_404(Product, slug=slug)
         context = {
-            'product': product
+            'product': product,
+            'form': form
         }
         return render(request, 'store/product_detail.html', context)
 
-    def post(self, request: HttpRequest):
+    def post(self, request: HttpRequest, slug):
         """
         this function is for post method and when post method arrived to this class
         """
-        pass
+        form = ProductCommentForm(request.POST)
+        product = get_object_or_404(Product, slug=slug)
+        if product:
+            if form.is_valid():
+                comment = form.save(commit=False)
+                comment.product = product
+                comment.user = request.user
+                comment.save()
+                messages.success(request, 'The comment was successfully added.')
+                return redirect(reverse_lazy('product_detail', args=[slug]))
+        else:
+            messages.error(request, "this product that you try to submit a message for it , does not exists.")
+        context = {
+            'product': product,
+            'form': form
+        }
+        return render(request, 'store/product_detail.html', context)

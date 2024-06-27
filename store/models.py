@@ -85,3 +85,17 @@ class UserJobInformation(models.Model):
     city = models.CharField(max_length=150, choices=CITY_CHOICES, verbose_name='City')
     country = models.CharField(max_length=150, choices=COUNTRY_CHOICES, verbose_name='Country')
     is_submitted = models.BooleanField(default=False, verbose_name='is_submitted')
+
+
+class ProductComment(models.Model):
+    """
+    this model is for storing the comment of each product
+    """
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name='Product')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='User')
+    comment = models.TextField(verbose_name='Comment')
+    created = models.DateTimeField(auto_now_add=True, verbose_name='Created')
+    updated = models.DateTimeField(auto_now=True, verbose_name='Updated')
+
+    def __str__(self):
+        return self.user.username
